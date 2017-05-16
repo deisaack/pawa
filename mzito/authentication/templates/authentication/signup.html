@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load staticfiles i18n %}
+
+{% block head %}
+  <link href="{% static 'css/signup.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block main %}
+      <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+  <h1 class="logo"><a href="{% url 'home' %}">Mzito</a></h1>
+  <div class="signup">
+    <h2>Sign up for Mzito</h2>
+    <form action="{% url 'signup' %}" method="post" role="form">
+      {% csrf_token %}
+      {% for field in form.visible_fields %}
+        <div class="form-group{% if field.errors %} has-error{% endif %}">
+          <label for="{{ field.label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <span class="help-block">{{ field.help_text|safe }}</span>
+          {% endif %}
+          {% for error in field.errors %}
+            <label class="control-label">{{ error }}</label>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-lg btn-primary btn-block">{% trans 'Create an account' %}</button>
+        <br><br>
+        If you already have an account
+      <a type="submit" href="{% url 'login' %}">{% trans 'Login' %}</a>
+    </form>
+  </div>
+    </div>
+{% endblock main %}
